@@ -12,7 +12,7 @@ public class DBConnection {
     public DBConnection() {
         this.url = "jdbc:postgresql://localhost:5432/currencyexchange";
         this.username = "postgres";
-        this.password = "Soulstorm1";
+        this.password = "postgres";
     }
 
     public void testConnection() throws SQLException {
@@ -30,7 +30,7 @@ public class DBConnection {
             return connection;
         } catch (SQLException e) {
             //throw new RuntimeException(e);
-            System.err.println("Connection failed: " + e.getMessage());
+            System.err.println("ЖОПА Connection failed: " + e.getMessage());
             return null;
         }
     }
