@@ -1,5 +1,0 @@
-package org.nomanspace.currencyexchange.model;
-
-public class ExchangeRate {
-    
-}

@@ -1,5 +1,5 @@
 <html>
 <body>
-<h2>Hello World!</h2>
+<h2>титульная страница, валюты доступны по ендпоинту /currencies</h2>
 </body>
 </html>

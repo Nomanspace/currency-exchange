@@ -3,17 +3,22 @@ package org.nomanspace.currencyexchange.model;
 public class Currency {
     private Integer id;
     private String code;
-    private String fullName;
+    private String name;
     private String sign;
 
     public Currency() {
-
     }
 
-    public Currency(Integer id, String code, String fullName, String sign) {
+    public Currency(int id, String code, String name, String sign) {
         this.id = id;
         this.code = code;
-        this.fullName = fullName;
+        this.name = name;
+        this.sign = sign;
+    }
+
+    public Currency(String code, String name, String sign) {
+        this.code = code;
+        this.name = name;
         this.sign = sign;
     }
 
@@ -25,8 +30,8 @@ public class Currency {
         return code;
     }
 
-    public String getFullName() {
-        return fullName;
+    public String getName() {
+        return name;
     }
 
     public String getSign() {
@@ -41,8 +46,8 @@ public class Currency {
         this.code = code;
     }
 
-    public void setFullName(String fullName) {
-        this.fullName = fullName;
+    public void setName(String name) {
+        this.name = name;
     }
 
     public void setSign(String sign) {
