@@ -1,8 +1,7 @@
-version: '3.8'
-
 services:
   db:
     image: postgres:17-alpine
+    restart: unless-stopped
     container_name: currency_db
     environment:
       POSTGRES_DB: ${POSTGRES_DB}
@@ -15,6 +14,7 @@ services:
 
   app:
     build: .
+    restart: unless-stopped
     container_name: currency_app
     ports:
       - "8080:8080"
@@ -27,6 +27,7 @@ services:
 
   frontend:
     build: ./frontend
+    restart: unless-stopped 
     container_name: currency_front
     ports:
       - "80:80"
