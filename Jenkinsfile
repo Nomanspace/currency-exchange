@@ -7,13 +7,6 @@ pipeline {
 				sh 'echo "Repo cloned by Jenkins"'
 			}
 		}
-	
-	
-		stage('Build Docker image') {
-			steps {
-				sh 'docker build -t currency-exchange-app .'
-			}
-		}
 		
 		stage('Deploy') {
 			steps {
