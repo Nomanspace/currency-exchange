@@ -21,7 +21,7 @@ pipeline {
 				sh 'echo "POSTGRES_USER=postgres" >> .env'
 				sh 'echo "POSTGRES_PASSWORD=postgres" >> .env'
 				sh 'docker compose down || true'
-				sh 'docker compose up -d'
+				sh 'docker compose up -d --build'
 			}
 		}
 	}
