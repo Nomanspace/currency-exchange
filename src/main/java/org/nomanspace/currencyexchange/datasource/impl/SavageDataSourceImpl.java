@@ -1,6 +1,9 @@
-package org.nomanspace.currencyexchange.datasource;
+package org.nomanspace.currencyexchange.datasource.impl;
 
 
+
+import org.nomanspace.currencyexchange.datasource.DataSource;
+import org.nomanspace.currencyexchange.datasource.DatabaseConfig;
 
 import java.sql.Connection;
 import java.sql.DriverManager;
@@ -15,6 +18,14 @@ public class SavageDataSourceImpl implements DataSource {
         } catch (ClassNotFoundException e) {
             throw new RuntimeException("PostgreSQL JDBC Driver not found!!", e);
         }
+    }
+
+    /**
+     *
+     */
+    @Override
+    public void closeConnectionPool() {
+        //not used
     }
 
     public SavageDataSourceImpl(DatabaseConfig databaseConfig) {

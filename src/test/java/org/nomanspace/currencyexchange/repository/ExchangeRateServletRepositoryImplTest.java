@@ -10,7 +10,7 @@ import java.util.Optional;
 
 import org.nomanspace.currencyexchange.datasource.DatabaseConfig;
 import org.nomanspace.currencyexchange.datasource.DatabaseConfigProvider;
-import org.nomanspace.currencyexchange.datasource.SavageDataSourceImpl;
+import org.nomanspace.currencyexchange.datasource.impl.SavageDataSourceImpl;
 import org.nomanspace.currencyexchange.model.Currency;
 import org.nomanspace.currencyexchange.model.ExchangeRate;
 import org.nomanspace.currencyexchange.repository.impl.ExchangeRateRepositoryImpl;

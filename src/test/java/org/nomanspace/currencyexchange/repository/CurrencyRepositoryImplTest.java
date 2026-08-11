@@ -12,10 +12,9 @@ import java.util.List;
 
 import org.nomanspace.currencyexchange.datasource.DatabaseConfig;
 import org.nomanspace.currencyexchange.datasource.DatabaseConfigProvider;
-import org.nomanspace.currencyexchange.datasource.SavageDataSourceImpl;
+import org.nomanspace.currencyexchange.datasource.impl.SavageDataSourceImpl;
 import org.nomanspace.currencyexchange.model.Currency;
 import org.nomanspace.currencyexchange.repository.impl.CurrencyRepositoryImpl;
-import org.nomanspace.currencyexchange.repository.CurrencyRepository;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
