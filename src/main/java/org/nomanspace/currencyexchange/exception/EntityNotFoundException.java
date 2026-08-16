@@ -1,7 +1,8 @@
 package org.nomanspace.currencyexchange.exception;
 
-public class EntityNotFoundException extends RuntimeException {
+
+public class EntityNotFoundException extends ApiException {
     public EntityNotFoundException(String message) {
-        super(message);
+        super(message, NOT_FOUND);
     }
 }

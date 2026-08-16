@@ -25,61 +25,60 @@ import java.util.List;
 import java.util.Map;
 
 
-
-@WebServlet("/currencies")
-public class CurrenciesServlet extends HttpServlet {
+public class CurrenciesServlet implements Handler {
     private CurrencyRepository currencyRepository;
     private static final Logger LOGGER = LoggerFactory.getLogger(CurrenciesServlet.class);
 
-    @Override
-    public void init(ServletConfig servletConfig) throws ServletException {
-        super.init(servletConfig);
-        ServletContext servletContext = servletConfig.getServletContext();
-        currencyRepository = (CurrencyRepository) servletContext.getAttribute("currencyRepository");
+
+    public CurrenciesServlet(CurrencyRepository currencyRepository) {
+        this.currencyRepository = currencyRepository;
     }
 
+
     @Override
-    protected void doGet(HttpServletRequest req, HttpServletResponse resp) {
+    public void doGet(HttpServletRequest req, HttpServletResponse resp) throws Exception {
         LOGGER.info("Request received: {} {}", req.getMethod(), req.getRequestURI());
         LOGGER.debug("Processing GET request for currencies.");
-        resp.setContentType("application/json");
-        try {
-            List<Currency> currencies = currencyRepository.findAll();
-            PrintWriter printWriter = resp.getWriter();
-            JsonUtil.toJson(printWriter, currencies);
-            printWriter.flush();
-        } catch (DatabaseException e) {
+
+        List<Currency> currencies = currencyRepository.findAll();
+
+        PrintWriter printWriter = resp.getWriter();
+        JsonUtil.toJson(printWriter, currencies);
+        printWriter.flush();
+
+        /*catch (DatabaseException e) {
             LOGGER.error("Data base error on findAll ", e);
             sendError(resp, HttpServletResponse.SC_INTERNAL_SERVER_ERROR, e.getMessage());
         } catch (IOException e) {
             LOGGER.error("Error writing HTTP response ", e);
             sendError(resp, HttpServletResponse.SC_INTERNAL_SERVER_ERROR, e.getMessage());
-        }
+        }*/
     }
 
     @Override
-    protected void doPost(HttpServletRequest req, HttpServletResponse resp) {
-        //Optional<Currency> result = null;
-        try {
-            String code = req.getParameter("code");
-            String name = req.getParameter("name");
-            String sign = req.getParameter("sign");
+    public void doPost(HttpServletRequest req, HttpServletResponse resp) throws Exception {
 
-            if (validateReqParams(code, name, sign)) {
-                throw new InvalidDataException("Missing form fields");
-            }
+        String code = req.getParameter("code");
+        String name = req.getParameter("name");
+        String sign = req.getParameter("sign");
 
-            Currency currency = new Currency(code, name, sign);
-            Currency saved = currencyRepository.save(currency).
-                    orElseThrow(() -> new DatabaseException("Failed to save currency"));
+        if (validateReqParams(code, name, sign)) {
+            throw new InvalidDataException("Missing form fields");
+        }
 
-            resp.setStatus(HttpServletResponse.SC_CREATED);
-            resp.setContentType("application/json");
-            PrintWriter printWriter = resp.getWriter();
-            JsonUtil.toJson(printWriter, saved);
-            printWriter.flush();
+        Currency currency = new Currency(code, name, sign);
+        Currency saved = currencyRepository.save(currency).
+                orElseThrow(() -> new DatabaseException("Failed to save currency"));
 
-        } catch (InvalidDataException e) {
+        resp.setStatus(HttpServletResponse.SC_CREATED);
+        //resp.setContentType("application/json");
+
+        PrintWriter printWriter = resp.getWriter();
+        JsonUtil.toJson(printWriter, saved);
+        printWriter.flush();
+
+
+        /*catch (InvalidDataException e) {
             LOGGER.warn("Missing form fields. fields contained space or null value ", e);
             sendError(resp, HttpServletResponse.SC_BAD_REQUEST, e.getMessage());
         } catch (EntityAlreadyExistsException e) {
@@ -91,7 +90,7 @@ public class CurrenciesServlet extends HttpServlet {
         } catch (Exception e) {
             LOGGER.error("Unexpected error ", e);
             sendError(resp, HttpServletResponse.SC_INTERNAL_SERVER_ERROR, e.getMessage());
-        }
+        }*/
 
         /*if (result != null) {
             try {
@@ -107,7 +106,7 @@ public class CurrenciesServlet extends HttpServlet {
         }*/
     }
 
-    private void sendError(HttpServletResponse resp, int status, String message) {
+    /*private void sendError(HttpServletResponse resp, int status, String message) {
         try {
             resp.setStatus(status);
             resp.setContentType("application/json");
@@ -115,7 +114,7 @@ public class CurrenciesServlet extends HttpServlet {
         } catch (IOException e) {
             LOGGER.error("Failed to send error response", e);
         }
-    }
+    }*/
 
     private boolean validateReqParams(String code, String name, String sign) {
         return code == null || code.isBlank() ||

@@ -1,7 +1,8 @@
 package org.nomanspace.currencyexchange.exception;
 
-public class InvalidDataException extends RuntimeException {
+
+public class InvalidDataException extends ApiException {
     public InvalidDataException(String message) {
-        super(message);
+        super(message, BAD_REQUEST);
     }
 }
