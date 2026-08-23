@@ -4,8 +4,6 @@ import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 import org.nomanspace.currencyexchange.controller.Handler;
 import org.nomanspace.currencyexchange.dto.ExchangeRateRequestDTO;
-import org.nomanspace.currencyexchange.exception.DatabaseException;
-import org.nomanspace.currencyexchange.exception.EntityNotFoundException;
 import org.nomanspace.currencyexchange.exception.InvalidDataException;
 import org.nomanspace.currencyexchange.model.ExchangeRate;
 import org.nomanspace.currencyexchange.service.ExchangeRateService;
@@ -49,8 +47,7 @@ public class ExchangeRateServlet implements Handler {
 
         String baseCode = code.substring(0, 3);
         String targetCode = code.substring(3, 6);
-        ExchangeRate exchangeRate = exchangeRateService.getExchangeRateByCode(baseCode, targetCode)
-                .orElseThrow(() -> new EntityNotFoundException("Exchange rate not found: " + code));
+        ExchangeRate exchangeRate = exchangeRateService.getExchangeRateByCode(baseCode, targetCode);
 
         PrintWriter printWriter = resp.getWriter();
         JsonUtil.toJson(printWriter, exchangeRate);
@@ -94,8 +91,8 @@ public class ExchangeRateServlet implements Handler {
         dto.setBaseCurrencyCode(baseCode);
         dto.setTargetCurrencyCode(targetCode);
         dto.setExchangeRate(rate);
-        ExchangeRate updatedPair = exchangeRateService.updateExistExchangeRate(dto)
-                .orElseThrow(() -> new DatabaseException("Exchange rate was not created"));
+        ExchangeRate updatedPair = exchangeRateService.updateExistExchangeRate(dto);
+                //.orElseThrow(() -> new DatabaseException("Exchange rate was not created"));
 
         resp.setStatus(HttpServletResponse.SC_OK);
         PrintWriter printWriter = resp.getWriter();

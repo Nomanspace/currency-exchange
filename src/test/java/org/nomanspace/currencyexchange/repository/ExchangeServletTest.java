@@ -16,7 +16,6 @@ import org.slf4j.LoggerFactory;
 import java.io.PrintWriter;
 import java.io.StringWriter;
 import java.math.BigDecimal;
-import java.util.Optional;
 
 import static org.junit.jupiter.api.Assertions.assertTrue;
 import static org.mockito.Mockito.verify;
@@ -85,9 +84,9 @@ class ExchangeServletTest {
         mockResponseDTO.setConvertedAmount(new BigDecimal("85.00"));
 
         // Настраиваем мок сервиса: при вызове convertCurrency с конкретными параметрами
-        // вернуть наш мок-объект, обернутый в Optional
+        // вернуть наш мок-объект
         when(mockExchangeRateService.convertCurrency("USD", "EUR", new BigDecimal("100")))
-            .thenReturn(Optional.of(mockResponseDTO));
+            .thenReturn(mockResponseDTO);
 
         // 5. ДЕЙСТВИЕ (Act)
 

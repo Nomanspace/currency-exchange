@@ -6,16 +6,15 @@ import org.nomanspace.currencyexchange.model.ExchangeRate;
 
 import java.math.BigDecimal;
 import java.util.List;
-import java.util.Optional;
 
 public interface ExchangeRateService {
     public List<ExchangeRate> getAllExchangeRates();
 
-    public Optional<ExchangeRate> getExchangeRateByCode(String baseCode, String targetCode);
+    public ExchangeRate getExchangeRateByCode(String baseCode, String targetCode);
 
-    public Optional<ExchangeRate> createNewExchangeRate(ExchangeRateRequestDTO exchangeRateRequestDTO);
+    public ExchangeRate createNewExchangeRate(ExchangeRateRequestDTO exchangeRateRequestDTO);
 
-    public Optional<ExchangeRate> updateExistExchangeRate(ExchangeRateRequestDTO exchangeRateRequestDTO);
+    public ExchangeRate updateExistExchangeRate(ExchangeRateRequestDTO exchangeRateRequestDTO);
 
-    public Optional<ExchangeResponseDTO> convertCurrency(String fromCode, String toCode, BigDecimal amount);
+    public ExchangeResponseDTO convertCurrency(String fromCode, String toCode, BigDecimal amount);
 }

@@ -4,8 +4,10 @@ import jakarta.servlet.*;
 import jakarta.servlet.annotation.WebFilter;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
+import org.slf4j.MDC;
 
 import java.io.IOException;
+import java.util.UUID;
 
 @WebFilter("/*")
 public class CorsFilter implements Filter {
@@ -15,6 +17,7 @@ public class CorsFilter implements Filter {
 
     @Override
     public void doFilter(ServletRequest request, ServletResponse response, FilterChain chain) throws IOException, ServletException {
+        MDC.put("requestId", UUID.randomUUID().toString());
         HttpServletRequest httpServletRequest = (HttpServletRequest) request;
         HttpServletResponse resp = (HttpServletResponse) response;
 
@@ -53,7 +56,7 @@ public class CorsFilter implements Filter {
 
 
         chain.doFilter(request, response);
-
+        MDC.remove("requestId");
     }
 
     private boolean isAllowedOrigin(String origin) {

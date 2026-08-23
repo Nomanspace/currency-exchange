@@ -5,17 +5,17 @@
         <encoder>
             <!-- Формат сообщения в логе -->
             <charset>UTF-8</charset>
-            <pattern>%d{HH:mm:ss.SSS} [%thread] %-5level %logger{36} - %msg%n</pattern>
+            <pattern>%X{requestId} %d{HH:mm:ss.SSS} [%thread] %-5level %logger{36} - %msg%n</pattern>
         </encoder>
     </appender>
 
     <!-- "Аппендер" для записи логов в файл -->
     <appender name="FILE" class="ch.qos.logback.core.FileAppender">
         <!-- Имя и путь к файлу. Папка logs создастся сама -->
-        <file>${catalina.base}/logs/app.log</file>
+        <file>${LOG_PATH:-logs/app.log}</file>
         <encoder>
             <charset>UTF-8</charset>
-            <pattern>%d{YYYY-MM-dd HH:mm:ss.SSS} [%thread] %-5level %logger{36} - %msg%n</pattern>
+            <pattern>%X{requestId} %d{YYYY-MM-dd HH:mm:ss.SSS} [%thread] %-5level %logger{36} - %msg%n</pattern>
         </encoder>
     </appender>
 

@@ -43,8 +43,7 @@ public class ExchangeServlet implements Handler {
             throw new InvalidDataException("Incorrect value in amount field");
         }
 
-        ExchangeResponseDTO dto = exchangeRateService.convertCurrency(from, to, amount)
-                .orElseThrow(() -> new EntityNotFoundException("ExchangeRate not found"));
+        ExchangeResponseDTO dto = exchangeRateService.convertCurrency(from, to, amount);
 
         resp.setStatus(HttpServletResponse.SC_OK);
         PrintWriter printWriter = resp.getWriter();

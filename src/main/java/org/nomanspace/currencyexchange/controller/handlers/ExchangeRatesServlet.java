@@ -4,7 +4,6 @@ import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 import org.nomanspace.currencyexchange.controller.Handler;
 import org.nomanspace.currencyexchange.dto.ExchangeRateRequestDTO;
-import org.nomanspace.currencyexchange.exception.DatabaseException;
 import org.nomanspace.currencyexchange.exception.InvalidDataException;
 import org.nomanspace.currencyexchange.model.ExchangeRate;
 import org.nomanspace.currencyexchange.service.ExchangeRateService;
@@ -61,14 +60,11 @@ public class ExchangeRatesServlet implements Handler {
         dto.setTargetCurrencyCode(targetCurrencyCode.toUpperCase(Locale.US));
         dto.setExchangeRate(rate);
 
-        Optional<ExchangeRate> createdPair = exchangeRateService.createNewExchangeRate(dto);
-        if (createdPair.isEmpty()) {
-            throw new DatabaseException("Failed to create exchange rate");
-        }
+        ExchangeRate createdPair = exchangeRateService.createNewExchangeRate(dto);
 
         resp.setStatus(HttpServletResponse.SC_CREATED);
         PrintWriter printWriter = resp.getWriter();
-        JsonUtil.toJson(printWriter, createdPair.get());
+        JsonUtil.toJson(printWriter, createdPair);
         printWriter.flush();
     }
 

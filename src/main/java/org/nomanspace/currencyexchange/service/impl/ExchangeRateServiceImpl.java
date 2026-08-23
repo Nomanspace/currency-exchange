@@ -3,6 +3,7 @@ package org.nomanspace.currencyexchange.service.impl;
 
 import org.nomanspace.currencyexchange.dto.ExchangeRateRequestDTO;
 import org.nomanspace.currencyexchange.dto.ExchangeResponseDTO;
+import org.nomanspace.currencyexchange.exception.DatabaseException;
 import org.nomanspace.currencyexchange.exception.EntityNotFoundException;
 import org.nomanspace.currencyexchange.model.Currency;
 import org.nomanspace.currencyexchange.model.ExchangeRate;
@@ -42,15 +43,14 @@ public class ExchangeRateServiceImpl implements ExchangeRateService {
 
 
     @Override
-    public Optional<ExchangeRate> getExchangeRateByCode(String baseCode, String targetCode) {
-        Optional<ExchangeRate> result;
-        result = exchangeRateRepository.findByCurrencyCode(baseCode, targetCode);
-        return result;
+    public ExchangeRate getExchangeRateByCode(String baseCode, String targetCode) {
+        return exchangeRateRepository.findByCurrencyCode(baseCode, targetCode)
+                .orElseThrow(() -> new EntityNotFoundException(String.format("Exchange rate pair %s/%s not found", baseCode, targetCode)));
     }
 
 
     @Override
-    public Optional<ExchangeRate> createNewExchangeRate(ExchangeRateRequestDTO dto) {
+    public ExchangeRate createNewExchangeRate(ExchangeRateRequestDTO dto) {
         String baseCurrencyCode;
         String targetCurrencyCode;
         Currency baseCurrency;
@@ -59,27 +59,25 @@ public class ExchangeRateServiceImpl implements ExchangeRateService {
         targetCurrencyCode = dto.getTargetCurrencyCode();
         baseCurrency = currencyRepository.findByCode(baseCurrencyCode).orElseThrow(() -> new EntityNotFoundException("Base Currency not found: " + dto.getBaseCurrencyCode()));
         targetCurrency = currencyRepository.findByCode(targetCurrencyCode).orElseThrow(() -> new EntityNotFoundException("Target Currency not found: " + dto.getTargetCurrencyCode()));
-        Optional<ExchangeRate> result = exchangeRateRepository.save(new ExchangeRate(baseCurrency, targetCurrency, dto.getExchangeRate()));
-        return result;
+        return exchangeRateRepository.save(new ExchangeRate(baseCurrency, targetCurrency, dto.getExchangeRate()))
+                .orElseThrow(() -> new DatabaseException("Exchange rate was not created"));
     }
 
 
     @Override
-    public Optional<ExchangeRate> updateExistExchangeRate(ExchangeRateRequestDTO dto) {
+    public ExchangeRate updateExistExchangeRate(ExchangeRateRequestDTO dto) {
         String baseCurrencyCode = dto.getBaseCurrencyCode();
         String targetCurrencyCode = dto.getTargetCurrencyCode();
         BigDecimal rateToUpdate = dto.getExchangeRate();
         ExchangeRate tempPairToUpdate = exchangeRateRepository.findByCurrencyCode(baseCurrencyCode, targetCurrencyCode).
                 orElseThrow(() -> new EntityNotFoundException(String.format("Exchange rate pair %s/%s not found", baseCurrencyCode, targetCurrencyCode)));
         LOGGER.info("found exist pair to update: {}", tempPairToUpdate);
-        //сделать кастомные ексепшены
         tempPairToUpdate.setRate(rateToUpdate);
-        return exchangeRateRepository.update(tempPairToUpdate);
+        return exchangeRateRepository.update(tempPairToUpdate).orElseThrow(() -> new DatabaseException("Exchange rate was not update"));
     }
 
     @Override
-    public Optional<ExchangeResponseDTO> convertCurrency(String fromCode, String toCode, BigDecimal amount) {
-        Optional<ExchangeResponseDTO> result = Optional.empty();
+    public ExchangeResponseDTO convertCurrency(String fromCode, String toCode, BigDecimal amount) {
         //BigDecimal convertedAmount = null;
         //BigDecimal rate = null;
         LOGGER.info("search pair {}/{}", fromCode, toCode);
@@ -90,22 +88,22 @@ public class ExchangeRateServiceImpl implements ExchangeRateService {
             ExchangeResponseDTO response = new ExchangeResponseDTO();
             result = Optional.of();
         }*/
-        result = getStraightExchange(fromCode, toCode, amount);
+        Optional<ExchangeResponseDTO> result = getStraightExchange(fromCode, toCode, amount);
         if (result.isPresent()) {
-            return result;
+            return result.get();
         }
 
         result = getRevertExchange(fromCode, toCode, amount);
         if (result.isPresent()) {
-            return result;
+            return result.get();
         }
 
         result = getCrossExchange(fromCode, toCode, amount);
         if (result.isPresent()) {
-            return result;
+            return result.get();
         }
 
-        return result;
+        throw new EntityNotFoundException(String.format("Exchange rate pair %s/%s not found", fromCode, toCode));
         /*
         return getStraightExchange(fromCode, toCode, amount)
         .or(() -> getRevertExchange(fromCode, toCode, amount))
@@ -139,7 +137,7 @@ public class ExchangeRateServiceImpl implements ExchangeRateService {
                         amount,
                         amount.divide(pair.getRate(), RoundingMode.HALF_EVEN)
                 ));*/
-        Optional<ExchangeRate> exchangeRate = getExchangeRateByCode(toCode, fromCode);
+        Optional<ExchangeRate> exchangeRate = exchangeRateRepository.findByCurrencyCode(toCode, fromCode);
         //ExchangeRate tempRate = exchangeRate.orElseThrow(() -> new RuntimeException(String.format("Exchange rate pair %s/%s not found", toCode, fromCode)));
         if (exchangeRate.isPresent()) {
             ExchangeRate tempRate = exchangeRate.get();
@@ -153,16 +151,19 @@ public class ExchangeRateServiceImpl implements ExchangeRateService {
     }
 
     private Optional<ExchangeResponseDTO> getStraightExchange(String fromCode, String toCode, BigDecimal amount) {
-        return getExchangeRateByCode(fromCode, toCode).map(pair ->
-                new ExchangeResponseDTO(
-                        pair.getBaseCurrency(),
-                        pair.getTargetCurrency(),
-                        pair.getRate(),
-                        amount,
-                        amount.multiply(pair.getRate()).
-                                setScale(2, RoundingMode.HALF_EVEN)
-                ));
-
+        Optional<ExchangeRate> exchangeRate = exchangeRateRepository.findByCurrencyCode(fromCode, toCode);
+        if (exchangeRate.isPresent()) {
+            ExchangeRate pair = exchangeRate.get();
+            return Optional.of(new ExchangeResponseDTO(
+                    pair.getBaseCurrency(),
+                    pair.getTargetCurrency(),
+                    pair.getRate(),
+                    amount,
+                    amount.multiply(pair.getRate()).
+                            setScale(2, RoundingMode.HALF_EVEN)
+            ));
+        }
+        return Optional.empty();
     }
 
 

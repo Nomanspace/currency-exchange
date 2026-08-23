@@ -22,7 +22,7 @@ import java.util.Map;
 
 @WebServlet("/*")
 public class FrontControllerServlet extends HttpServlet {
-    private CurrencyRepository currencyRepository;
+    //private CurrencyRepository currencyRepository;
     private Map<String, Handler> servletDict;
     HandlersRegistryImpl handlersRegistryImpl;
     private static final Logger LOGGER = LoggerFactory.getLogger(FrontControllerServlet.class);
@@ -31,7 +31,7 @@ public class FrontControllerServlet extends HttpServlet {
     public void init(ServletConfig config) throws ServletException {
         super.init(config);
         ServletContext servletContext = config.getServletContext();
-        currencyRepository = (CurrencyRepository) servletContext.getAttribute("currencyRepository");
+        //currencyRepository = (CurrencyRepository) servletContext.getAttribute("currencyRepository");
         handlersRegistryImpl = (HandlersRegistryImpl) servletContext.getAttribute("handlersRegistry");
         servletDict = handlersRegistryImpl.getHandlers();
     }

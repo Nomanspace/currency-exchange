@@ -52,7 +52,7 @@ public class ExchangeRateRepositoryImpl implements ExchangeRateRepository {
             return result;
         } catch (SQLException e) {
             if (PSQLState.UNIQUE_VIOLATION.getState().equals(e.getSQLState())) {
-                throw new EntityAlreadyExistsException("Currency with code " + rateToSave.getTargetCurrency() + " " + " already exists");
+                throw new EntityAlreadyExistsException("Pair with code " + rateToSave.getBaseCurrency() + " and " + rateToSave.getTargetCurrency() + " already exists");
             }
             LOGGER.error("An error occurred when adding a pair to the base ", e);
             throw new DatabaseException("An error occurred when adding a pair to the base : " + e.getMessage(), e);
@@ -143,7 +143,7 @@ public class ExchangeRateRepositoryImpl implements ExchangeRateRepository {
 
         } catch (SQLException e) {
             LOGGER.error("Error during deletion of record with ID: {} ", id, e);
-            throw new DatabaseException("An error occurred when adding a pair to the base : " + e.getMessage(), e);
+            throw new DatabaseException("An error occurred when delete the pair in base : " + e.getMessage(), e);
         }
         return rowsAffected > 0;
     }
