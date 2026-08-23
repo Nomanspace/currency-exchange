@@ -6,7 +6,7 @@ import jakarta.servlet.ServletContextEvent;
 import jakarta.servlet.ServletContextListener;
 import jakarta.servlet.annotation.WebListener;
 import org.flywaydb.core.Flyway;
-import org.nomanspace.currencyexchange.controller.HandlersRegistry;
+import org.nomanspace.currencyexchange.controller.impl.HandlersRegistryImpl;
 import org.nomanspace.currencyexchange.datasource.DataSource;
 import org.nomanspace.currencyexchange.datasource.DatabaseConfig;
 import org.nomanspace.currencyexchange.datasource.DatabaseConfigProvider;
@@ -41,11 +41,11 @@ public class AppContextListener implements ServletContextListener {
         CurrencyRepository currencyRepositoryImpl = new CurrencyRepositoryImpl(dataSource);
         ExchangeRateRepository exchangeRateRepositoryImpl = new ExchangeRateRepositoryImpl(dataSource);
         ExchangeRateService exchangeRateService = new ExchangeRateServiceImpl(exchangeRateRepositoryImpl, currencyRepositoryImpl);
-        HandlersRegistry handlersRegistry = new HandlersRegistry(currencyRepositoryImpl, exchangeRateService);
+        HandlersRegistryImpl handlersRegistryImpl = new HandlersRegistryImpl(currencyRepositoryImpl, exchangeRateService);
         stcx = sce.getServletContext();
         stcx.setAttribute("currencyRepository", currencyRepositoryImpl);
         stcx.setAttribute("exchangeRateService", exchangeRateService);
-        stcx.setAttribute("handlersRegistry", handlersRegistry);
+        stcx.setAttribute("handlersRegistry", handlersRegistryImpl);
 
     }
 

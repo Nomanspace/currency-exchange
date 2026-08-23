@@ -1,12 +1,14 @@
-package org.nomanspace.currencyexchange.controller;
+package org.nomanspace.currencyexchange.controller.impl;
 
+import org.nomanspace.currencyexchange.controller.Handler;
+import org.nomanspace.currencyexchange.controller.handlers.*;
 import org.nomanspace.currencyexchange.repository.CurrencyRepository;
 import org.nomanspace.currencyexchange.service.ExchangeRateService;
 
 import java.util.HashMap;
 import java.util.Map;
 
-public class HandlersRegistry {
+public class HandlersRegistryImpl {
 
     private Map<String, Handler> handlers;
     private CurrencyRepository currencyRepository;
@@ -16,7 +18,7 @@ public class HandlersRegistry {
         return handlers;
     }
 
-    public HandlersRegistry(CurrencyRepository currencyRepository, ExchangeRateService exchangeRateService) {
+    public HandlersRegistryImpl(CurrencyRepository currencyRepository, ExchangeRateService exchangeRateService) {
         this.currencyRepository = currencyRepository;
         this.exchangeRateService = exchangeRateService;
         handlers = fill();

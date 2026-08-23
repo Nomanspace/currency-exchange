@@ -6,7 +6,7 @@ import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
-import org.nomanspace.currencyexchange.controller.ExchangeServlet;
+import org.nomanspace.currencyexchange.controller.handlers.ExchangeServlet;
 import org.nomanspace.currencyexchange.dto.ExchangeResponseDTO;
 import org.nomanspace.currencyexchange.model.Currency;
 import org.nomanspace.currencyexchange.service.ExchangeRateService;

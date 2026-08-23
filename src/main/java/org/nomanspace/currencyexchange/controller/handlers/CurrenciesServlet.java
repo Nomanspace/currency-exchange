@@ -1,15 +1,10 @@
-package org.nomanspace.currencyexchange.controller;
+package org.nomanspace.currencyexchange.controller.handlers;
 
-import jakarta.servlet.ServletConfig;
-import jakarta.servlet.ServletContext;
-import jakarta.servlet.ServletException;
-import jakarta.servlet.annotation.WebServlet;
-import jakarta.servlet.http.HttpServlet;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 
+import org.nomanspace.currencyexchange.controller.Handler;
 import org.nomanspace.currencyexchange.exception.DatabaseException;
-import org.nomanspace.currencyexchange.exception.EntityAlreadyExistsException;
 import org.nomanspace.currencyexchange.exception.InvalidDataException;
 import org.nomanspace.currencyexchange.repository.CurrencyRepository;
 import org.nomanspace.currencyexchange.model.Currency;
@@ -19,10 +14,8 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 
-import java.io.IOException;
 import java.io.PrintWriter;
 import java.util.List;
-import java.util.Map;
 
 
 public class CurrenciesServlet implements Handler {

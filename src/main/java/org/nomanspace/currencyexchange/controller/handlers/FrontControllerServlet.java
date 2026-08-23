@@ -1,4 +1,4 @@
-package org.nomanspace.currencyexchange.controller;
+package org.nomanspace.currencyexchange.controller.handlers;
 
 import jakarta.servlet.ServletConfig;
 import jakarta.servlet.ServletContext;
@@ -7,6 +7,8 @@ import jakarta.servlet.annotation.WebServlet;
 import jakarta.servlet.http.HttpServlet;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
+import org.nomanspace.currencyexchange.controller.Handler;
+import org.nomanspace.currencyexchange.controller.impl.HandlersRegistryImpl;
 import org.nomanspace.currencyexchange.exception.ApiException;
 import org.nomanspace.currencyexchange.exception.EntityNotFoundException;
 import org.nomanspace.currencyexchange.exception.MethodNotAllowedException;
@@ -16,14 +18,13 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import java.io.IOException;
-import java.util.HashMap;
 import java.util.Map;
 
 @WebServlet("/*")
 public class FrontControllerServlet extends HttpServlet {
     private CurrencyRepository currencyRepository;
     private Map<String, Handler> servletDict;
-    HandlersRegistry handlersRegistry;
+    HandlersRegistryImpl handlersRegistryImpl;
     private static final Logger LOGGER = LoggerFactory.getLogger(FrontControllerServlet.class);
 
     @Override
@@ -31,8 +32,8 @@ public class FrontControllerServlet extends HttpServlet {
         super.init(config);
         ServletContext servletContext = config.getServletContext();
         currencyRepository = (CurrencyRepository) servletContext.getAttribute("currencyRepository");
-        handlersRegistry = (HandlersRegistry) servletContext.getAttribute("handlersRegistry");
-        servletDict = handlersRegistry.getHandlers();
+        handlersRegistryImpl = (HandlersRegistryImpl) servletContext.getAttribute("handlersRegistry");
+        servletDict = handlersRegistryImpl.getHandlers();
     }
 
     @Override

@@ -1,7 +1,8 @@
-package org.nomanspace.currencyexchange.controller;
+package org.nomanspace.currencyexchange.controller.handlers;
 
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
+import org.nomanspace.currencyexchange.controller.Handler;
 import org.nomanspace.currencyexchange.dto.ExchangeRateRequestDTO;
 import org.nomanspace.currencyexchange.exception.DatabaseException;
 import org.nomanspace.currencyexchange.exception.EntityNotFoundException;
