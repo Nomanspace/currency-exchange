@@ -12,10 +12,15 @@ info:
   title: Currency Exchange API
   version: 1.0.0
 servers:
-  - url: http://localhost:8080
-    description: Local development
-  - url: http://localhost:80
-    description: Docker (nginx proxy)
+#  - url: http://localhost:8080
+#    description: Local development
+#  - url: http://localhost:80
+#    description: Docker (nginx proxy)
+
+  - url: /
+    description: "request send by current host"
+  - url: http://192.168.1.215
+    description: "static route to host"
 
 paths:
   /currencies:
