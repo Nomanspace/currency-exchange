@@ -38,7 +38,9 @@ public class ExchangeRateServlet implements Handler {
             throw new InvalidDataException("Currency code is missing");
         }
 
-        String code = pathInfo.substring(1).toUpperCase(Locale.UK);
+        //String code = pathInfo.substring(1).toUpperCase(Locale.UK);
+        String code = pathInfo.toUpperCase(Locale.UK);
+        LOGGER.info("code value: {}", code);
         Matcher matcher = IS_CODE_CORRECT.matcher(code);
         boolean isURLRight = matcher.matches();
         if (!isURLRight) {
@@ -67,7 +69,9 @@ public class ExchangeRateServlet implements Handler {
             throw new InvalidDataException("Currency code is missing");
         }
 
-        String code = pathInfo.substring(1).toUpperCase(Locale.UK);
+        //String code = pathInfo.substring(1).toUpperCase(Locale.UK);
+        String code = pathInfo.toUpperCase(Locale.UK);
+        LOGGER.info("code value: {}", code);
         Matcher matcher = IS_CODE_CORRECT.matcher(code);
         boolean isURLRight = matcher.matches();
         if (!isURLRight) {
