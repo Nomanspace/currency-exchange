@@ -386,11 +386,11 @@ components:
       type: object
       properties:
         baseCurrencyCode:
-          type: integer
-          format: int64
+          type: string
+          #format: int64
         targetCurrencyCode:
-          type: integer
-          format: int64
+          type: string
+          #format: int64
         rate:
           type: number
           format: double
