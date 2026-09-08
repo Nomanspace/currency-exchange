@@ -31,7 +31,8 @@ public class ExchangeRateServlet implements Handler {
         LOGGER.info("Request received: {} {}", req.getMethod(), req.getRequestURI());
         LOGGER.debug("Processing GET request for /exchangeRate/*.");
 
-        String pathInfo = req.getPathInfo();
+        //String pathInfo = req.getPathInfo();
+        String pathInfo = (String) req.getAttribute("currency");
         if (pathInfo == null) {
             LOGGER.info("ExchangeRate code is missing");
             throw new InvalidDataException("Currency code is missing");
@@ -59,7 +60,8 @@ public class ExchangeRateServlet implements Handler {
         LOGGER.info("Request received: {} {}", req.getMethod(), req.getRequestURI());
         LOGGER.debug("Processing Patch request for /exchangeRate/*.");
 
-        String pathInfo = req.getPathInfo();
+        //String pathInfo = req.getPathInfo();
+        String pathInfo = (String) req.getAttribute("currency");
         if (pathInfo == null) {
             LOGGER.info("ExchangeRate code is missing");
             throw new InvalidDataException("Currency code is missing");

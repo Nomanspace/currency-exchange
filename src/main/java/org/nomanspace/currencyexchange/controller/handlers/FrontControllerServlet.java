@@ -48,16 +48,19 @@ public class FrontControllerServlet extends HttpServlet {
             //LOGGER.info("Currency code is missing");
             return;
         }*/
-            String[] uri = req.getPathInfo().split("/");
-            String apiUri = uri[1];
+            //String[] uri = req.getPathInfo().split("/");
+            String path = req.getPathInfo().substring(1);
+            String[] uri = path.split("/");
+            String apiUri = uri[0];
             Handler handler = servletDict.get(apiUri);
             if (handler == null) {
                 throw new EntityNotFoundException("path not found: " + req.getPathInfo());
                 //return; не нужен, так как в try catch блоке ошибка улетит сразу в catch
             }
             String method = req.getMethod();
-            req.setAttribute(apiUri, uri[2]);
-
+            if (uri.length > 1) {
+                req.setAttribute(apiUri, uri[1]);
+            }
             switch (method) {
                 case "GET" -> handler.doGet(req, resp);
                 case "POST" -> handler.doPost(req, resp);
