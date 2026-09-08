@@ -80,6 +80,7 @@ public class ExchangeRateServlet implements Handler {
         }
 
         String sRate = req.getParameter("rate");
+        LOGGER.info("sRate value: {}", sRate);
         if (validateReqParams(sRate)) {
             throw new InvalidDataException("Missing form fields");
         }
