@@ -2,14 +2,18 @@ package org.nomanspace.currencyexchange.repository;
 
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
+
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
+
 import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
+
 import org.nomanspace.currencyexchange.controller.handlers.ExchangeServlet;
 import org.nomanspace.currencyexchange.dto.ExchangeResponseDTO;
 import org.nomanspace.currencyexchange.model.Currency;
 import org.nomanspace.currencyexchange.service.ExchangeRateService;
+
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -47,7 +51,7 @@ class ExchangeServletTest {
         // 4. ПОДГОТОВКА (Arrange)
 
         // 4.1. Мы хотим, чтобы при вызове mockRequest.getParameter("from") вернулось "USD".
-        // when() ... thenReturn() програмрует мок на нужное поведение.
+        // when() ... thenReturn() программирует мок на нужное поведение.
         // Документация: https://javadoc.io/doc/org.mockito/mockito-core/latest/org/mockito/Mockito.html#stubbing
         when(mockRequest.getParameter("from")).thenReturn("USD");
         when(mockRequest.getParameter("to")).thenReturn("EUR");

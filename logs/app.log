@@ -1,0 +1,25 @@
+ 2026-09-05 18:50:05.276 [main] INFO  o.n.c.c.handlers.CurrencyServlet - Request received: null null
+ 2026-09-05 18:50:05.297 [main] INFO  o.n.c.c.handlers.CurrencyServlet - Incorrect currency code format: URRENCY/RUB
+ 2026-09-05 19:02:34.955 [main] INFO  o.n.c.c.handlers.CurrencyServlet - Request received: null null
+ 2026-09-05 20:56:14.206 [main] INFO  o.n.c.c.handlers.CurrencyServlet - Request received: null null
+ 2026-09-05 20:56:14.222 [main] INFO  o.n.c.c.handlers.CurrencyServlet - Processing GET request for /currency/*.
+ 2026-09-05 20:56:14.225 [main] INFO  o.n.c.c.handlers.CurrencyServlet - Incorrect currency code format: CURRENCY/RUB
+ 2026-09-05 21:31:15.184 [main] INFO  o.n.c.c.handlers.CurrencyServlet - Request received: null null
+ 2026-09-05 21:31:15.200 [main] INFO  o.n.c.c.handlers.CurrencyServlet - Processing GET request for /currency/*.
+ 2026-09-05 21:34:10.939 [main] INFO  o.n.c.c.handlers.CurrencyServlet - Request received: null null
+ 2026-09-05 21:34:10.955 [main] INFO  o.n.c.c.handlers.CurrencyServlet - Processing GET request for /currency/*.
+ 2026-09-05 21:35:06.362 [main] INFO  o.n.c.c.handlers.CurrencyServlet - Request received: null null
+ 2026-09-05 21:35:06.379 [main] INFO  o.n.c.c.handlers.CurrencyServlet - Processing GET request for /currency/*.
+ 2026-09-05 21:41:19.101 [main] INFO  o.n.c.c.handlers.CurrencyServlet - Request received: null null
+ 2026-09-05 21:41:19.118 [main] INFO  o.n.c.c.handlers.CurrencyServlet - Processing GET request for /currency/*.
+ 2026-09-05 21:42:04.533 [main] INFO  o.n.c.c.handlers.CurrencyServlet - Request received: null null
+ 2026-09-05 21:42:04.550 [main] INFO  o.n.c.c.handlers.CurrencyServlet - Processing GET request for /currency/*.
+ 2026-09-05 21:44:23.499 [main] INFO  o.n.c.c.handlers.CurrencyServlet - Request received: null null
+ 2026-09-05 21:44:23.515 [main] INFO  o.n.c.c.handlers.CurrencyServlet - Processing GET request for /currency/*.
+ 2026-09-05 21:44:23.519 [main] INFO  o.n.c.c.handlers.CurrencyServlet - Values in code field: RUB
+ 2026-09-08 13:26:22.155 [main] INFO  o.n.c.c.handlers.CurrencyServlet - Request received: null null
+ 2026-09-08 13:26:22.173 [main] INFO  o.n.c.c.handlers.CurrencyServlet - Processing GET request for /currency/*.
+ 2026-09-08 13:26:22.176 [main] INFO  o.n.c.c.handlers.CurrencyServlet - Values in code field: RUB
+ 2026-09-08 13:32:41.587 [main] INFO  o.n.c.c.handlers.CurrencyServlet - Request received: null null
+ 2026-09-08 13:32:41.605 [main] INFO  o.n.c.c.handlers.CurrencyServlet - Processing GET request for /currency/*.
+ 2026-09-08 13:32:41.609 [main] INFO  o.n.c.c.handlers.CurrencyServlet - Values in code field: RUB

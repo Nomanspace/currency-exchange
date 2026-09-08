@@ -56,7 +56,7 @@ public class FrontControllerServlet extends HttpServlet {
                 //return; не нужен, так как в try catch блоке ошибка улетит сразу в catch
             }
             String method = req.getMethod();
-
+            req.setAttribute(apiUri, uri[2]);
 
             switch (method) {
                 case "GET" -> handler.doGet(req, resp);

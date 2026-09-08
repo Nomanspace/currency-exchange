@@ -29,15 +29,19 @@ public class CurrencyServlet implements Handler {
     @Override
     public void doGet(HttpServletRequest req, HttpServletResponse resp) throws Exception {
         LOGGER.info("Request received: {} {}", req.getMethod(), req.getRequestURI());
-        LOGGER.debug("Processing GET request for /currency/*.");
+        LOGGER.info("Processing GET request for /currency/*.");
+        //LOGGER.info("Values in Attribute field: {}", req.getAttributeNames().toString());
 
-        String pathInfo = req.getPathInfo();
+        //String pathInfo = req.getPathInfo();
+        String pathInfo = (String) req.getAttribute("currency");
         if (pathInfo == null) {
             LOGGER.info("Currency code is missing");
             throw new InvalidDataException("Currency code is missing");
         }
 
-        String code = pathInfo.substring(1).toUpperCase(Locale.UK);
+        //String code = pathInfo.substring(1).toUpperCase(Locale.UK);
+        String code = pathInfo.toUpperCase(Locale.UK);
+        LOGGER.info("Values in code field: {}", code);
         Matcher matcher = IS_CODE_CORRECT.matcher(code);
         boolean isURLRight = matcher.matches();
         if (!isURLRight) {
