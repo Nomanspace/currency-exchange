@@ -61,12 +61,14 @@ public class ExchangeRateServlet implements Handler {
     public void doPatch(HttpServletRequest req, HttpServletResponse resp) throws Exception {
         LOGGER.info("Request received: {} {}", req.getMethod(), req.getRequestURI());
         LOGGER.debug("Processing Patch request for /exchangeRate/*.");
+        LOGGER.info("Content-Type: {}", req.getContentType());
+        LOGGER.info("Content-Length: {}", req.getContentLength());
 
         //String pathInfo = req.getPathInfo();
         String pathInfo = (String) req.getAttribute("exchangeRate");
         if (pathInfo == null) {
             LOGGER.info("ExchangeRate code is missing");
-            throw new InvalidDataException("Currency code is missing");
+            throw new InvalidDataException("ExchangeRate code is missing");
         }
 
         //String code = pathInfo.substring(1).toUpperCase(Locale.UK);
