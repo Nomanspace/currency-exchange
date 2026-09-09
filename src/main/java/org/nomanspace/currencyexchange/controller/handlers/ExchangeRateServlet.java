@@ -11,9 +11,13 @@ import org.nomanspace.currencyexchange.util.JsonUtil;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
+import java.io.BufferedReader;
+import java.io.IOException;
 import java.io.PrintWriter;
 import java.math.BigDecimal;
+import java.util.HashMap;
 import java.util.Locale;
+import java.util.Map;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
@@ -81,7 +85,12 @@ public class ExchangeRateServlet implements Handler {
             throw new InvalidDataException("Incorrect currency code format");
         }
 
-        String sRate = req.getParameter("rate");
+        String allLinesReq = getReq(req);
+
+
+        //String sRate = req.getParameter("rate");
+
+        String sRate = getRate(allLinesReq).get("rate");
         LOGGER.info("sRate value: {}", sRate);
         if (validateReqParams(sRate)) {
             throw new InvalidDataException("Missing form fields");
@@ -107,6 +116,31 @@ public class ExchangeRateServlet implements Handler {
         PrintWriter printWriter = resp.getWriter();
         JsonUtil.toJson(printWriter, updatedPair);
         printWriter.flush();
+    }
+
+    private Map<String,String> getRate(String allLinesReq) {
+        Map<String,String> result = new HashMap<>();
+        String[] firstSplit = allLinesReq.split("&");
+        for (int i = 0; i < firstSplit.length; i++) {
+            String[] secondSplit = firstSplit[i].split("=");
+            result.put(secondSplit[0],secondSplit[1]);
+        }
+
+        return result;
+    }
+
+    private String getReq(HttpServletRequest req) throws IOException {
+        String result;
+        BufferedReader reader = req.getReader();
+        StringBuilder stringBuilder = new StringBuilder();
+        String line;
+        while ((line = reader.readLine()) != null) {
+            stringBuilder.append(line);
+        }
+        result = stringBuilder.toString();
+        stringBuilder.setLength(0);
+
+        return result;
     }
 
     private boolean validateReqParams(String rate) {
