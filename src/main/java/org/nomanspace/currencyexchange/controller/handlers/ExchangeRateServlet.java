@@ -7,22 +7,20 @@ import org.nomanspace.currencyexchange.dto.ExchangeRateRequestDTO;
 import org.nomanspace.currencyexchange.exception.InvalidDataException;
 import org.nomanspace.currencyexchange.model.ExchangeRate;
 import org.nomanspace.currencyexchange.service.ExchangeRateService;
+import org.nomanspace.currencyexchange.util.FormUrlEncodedParser;
 import org.nomanspace.currencyexchange.util.JsonUtil;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-import java.io.BufferedReader;
-import java.io.IOException;
 import java.io.PrintWriter;
 import java.math.BigDecimal;
-import java.util.HashMap;
 import java.util.Locale;
 import java.util.Map;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
 public class ExchangeRateServlet implements Handler {
-    private ExchangeRateService exchangeRateService;
+    private final ExchangeRateService exchangeRateService;
     private static final Logger LOGGER = LoggerFactory.getLogger(ExchangeRateServlet.class);
     private static final Pattern IS_CODE_CORRECT = Pattern.compile("^[A-Z]{6}$");
 
@@ -85,11 +83,8 @@ public class ExchangeRateServlet implements Handler {
             throw new InvalidDataException("Incorrect currency code format");
         }
 
+        /*
         String allLinesReq = getReq(req);
-
-
-        //String sRate = req.getParameter("rate");
-
         String sRate = getRate(allLinesReq).get("rate");
         LOGGER.info("sRate value: {}", sRate);
         if (validateReqParams(sRate)) {
@@ -102,6 +97,10 @@ public class ExchangeRateServlet implements Handler {
         } catch (NumberFormatException e) {
             throw new InvalidDataException("Incorrect value in rate field");
         }
+        */
+        Map<String, String> formParameters = FormUrlEncodedParser.parse(req.getReader());
+        BigDecimal rate = FormUrlEncodedParser.getRequiredDecimal(formParameters, "rate");
+        LOGGER.info("rate value: {}", rate);
 
         String baseCode = code.substring(0, 3);
         String targetCode = code.substring(3, 6);
@@ -118,6 +117,7 @@ public class ExchangeRateServlet implements Handler {
         printWriter.flush();
     }
 
+    /*
     private Map<String,String> getRate(String allLinesReq) {
         Map<String,String> result = new HashMap<>();
         String[] firstSplit = allLinesReq.split("&");
@@ -146,4 +146,5 @@ public class ExchangeRateServlet implements Handler {
     private boolean validateReqParams(String rate) {
         return rate == null || rate.isBlank();
     }
+    */
 }
